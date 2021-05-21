@@ -1,0 +1,12 @@
+{
+    "type": "postgres",
+    "host": "localhost",
+    "port": 5432,
+    "username": "postgres",
+    "password": "sa..123",
+    "database": "crud_nest",
+    "entities": ["dist/**/*.entity{.ts,.js}"],
+    "synchronize": true,
+    "retryDelay": 30,
+    "retryAttempts": 10
+  }

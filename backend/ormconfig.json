@@ -3,7 +3,7 @@
     "host": "localhost",
     "port": 5432,
     "username": "postgres",
-    "password": "sa..123",
+    "password": "ms..",
     "database": "crud_nest",
     "entities": ["dist/**/*.entity{.ts,.js}"],
     "synchronize": true,

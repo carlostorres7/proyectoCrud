@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { UserInterface } from './user-interface';
+import { UsersService } from "src/app/services/users.service";
 
 @Component({
   selector: 'app-form',
@@ -10,6 +11,7 @@ import { UserInterface } from './user-interface';
 export class FormComponent implements OnInit {
   searcht!: string;
   profileForm = new FormGroup({
+    id: new FormControl(0),
     name: new FormControl('', [Validators.required]),
     city: new FormControl('', [Validators.required]),
   });
@@ -17,9 +19,15 @@ export class FormComponent implements OnInit {
   edit_id: number = 0;
   usuarios: Array<any> = [];
 
-  constructor() {}
+  constructor(private readonly usersService: UsersService) { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.getAll()
+  }
+
+  getAll() {
+    this.usersService.getAll().subscribe(val => this.usuarios = val)
+  }
 
   get controls() {
     return this.profileForm.controls;
@@ -29,7 +37,7 @@ export class FormComponent implements OnInit {
     if (this.profileForm.valid) {
       let name = this.profileForm.value.name;
       let city = this.profileForm.value.city;
-      
+
       if (this.edit_id > 0) { //actualiza
         let id = this.edit_id;
         this.edit_id = 0;
@@ -58,6 +66,28 @@ export class FormComponent implements OnInit {
     console.log(this.usuarios);
   }
 
+  onSubmitS() {
+    console.log(this.profileForm.value)
+    if (this.profileForm.valid) {
+      if (this.profileForm.value.id === 0) {
+        this.usersService.create(this.profileForm.value).subscribe(
+          val => {
+            console.log('user create', val)
+            this.getAll()
+          },
+          err => console.log('el usuario no se pudo crear', err)
+        )
+      } else {
+        this.usersService.update(this.profileForm.value.id, this.profileForm.value).subscribe(val => {
+          console.log(val)
+          this.getAll()
+        })
+      }
+      this.profileForm.reset();
+      this.profileForm.controls['id'].setValue(0)
+    }
+  }
+
   update(user: UserInterface) {
     let item: number = this.usuarios.findIndex(
       (element) => element.id === user.id
@@ -67,8 +97,22 @@ export class FormComponent implements OnInit {
     this.profileForm.controls['city'].setValue(this.usuarios[item].city);
   }
 
+  updateS(user: UserInterface) {
+    console.log(user);
+    this.profileForm.controls['id'].setValue(user.id)
+    this.profileForm.controls['name'].setValue(user.name);
+    this.profileForm.controls['city'].setValue(user.city);
+  }
+
   delete(user: UserInterface) {
-    let i = this.usuarios.findIndex( usuarios => usuarios.id === user.id);
+    let i = this.usuarios.findIndex(usuarios => usuarios.id === user.id);
     this.usuarios.splice(i, 1);
+  }
+
+  deleteS(id: string) {
+    this.usersService.delete(id).subscribe(val => {
+      console.log(val)
+      this.getAll()
+    })
   }
 }

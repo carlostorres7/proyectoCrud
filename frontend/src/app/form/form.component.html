@@ -19,7 +19,7 @@
 </div>
 -->
 <div class="con">
-  <form [formGroup]="profileForm" class="form" (ngSubmit)="onSubmitReactive()" >
+  <form [formGroup]="profileForm" class="form" (ngSubmit)="onSubmitS()" >
       <div class="mb-3">
         <label class="form-label">Nombres</label>
         <input type="text" formControlName="name" class="form-control" id="name" placeholder="Name" >
@@ -46,8 +46,8 @@
     <tr *ngFor="let item of usuarios | search: searcht">
       <td>{{ item.name }}</td>
       <td>{{ item.city }}</td>
-      <td><button (click)="delete(item)" class="btn btn-danger">eliminar</button></td>
-      <td><button (click)="update(item)" class="btn btn-primary">editar</button></td>
+      <td><button (click)="deleteS(item.id)" class="btn btn-danger">eliminar</button></td>
+      <td><button (click)="updateS(item)" class="btn btn-primary">editar</button></td>
     </tr>
   </tbody>
 </table>

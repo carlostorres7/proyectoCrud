@@ -7,3 +7,11 @@ CREATE TABLE users (
 	updatedat timestamp not null default now(),
 	primary key (id)
 );
+
+CREATE TABLE task (
+	id serial not null,
+	name varchar(50) not null UNIQUE,
+	createdat timestamp not null default now(),
+	updatedat timestamp not null default now(),
+	primary key (id)
+);

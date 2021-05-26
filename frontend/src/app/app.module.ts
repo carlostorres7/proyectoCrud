@@ -8,13 +8,15 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HeaderComponent } from './header/header.component';
 import { SearchPipe } from './form/search.pipe';
 import { HttpClientModule } from "@angular/common/http";
+import { FormtwoComponent } from './formtwo/formtwo.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     FormComponent,
     HeaderComponent,
-    SearchPipe
+    SearchPipe,
+    FormtwoComponent
   ],
   imports: [
     FormsModule,
